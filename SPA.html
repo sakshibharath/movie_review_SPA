@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MovieReviewApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Netflix.com</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, sans-serif;
+            background-image: url('https://images.wallpapersden.com/image/download/netflixone-piece-poster-2023_bmZoZWyUmZqaraWkpJRmbmdlrWZlbWU.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #94b0e1;
+        }
+        .header {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(235, 237, 226, 0.6);
+            border-radius: 10px;
+        }
+        .app-title {
+            font-size: 25px;
+            color: red;
+        }
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #movieSearch {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            font-size: 16px;
+        }
+        #searchButton {
+            padding: 10px 20px;
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #searchButton:hover {
+            background-color: #FF6347;
+        }
+        .movies {
+            display: flex;
+            flex-direction: column;  /* Stack movies vertically */
+            align-items: center;  /* Center the movie cards */
+            padding: 20px;
+        }
+        .movie {
+            margin: 20px;
+            padding: 20px;
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: transform 0.2s;
+            cursor: pointer;
+            text-align: center;
+        }
+        .movie:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(252, 236, 114, 0.6);
+        }
+        .movie-title {
+            font-size: 20px;
+            color: red;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="MovieController">
+    <div class="header">
+        <h1 class="app-title">NETFLIX MOVIE REVIEWS</h1>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="movieSearch" placeholder="Search for a movie..." ng-model="searchText">
+        <button id="searchButton" ng-click="searchMovie()">Search</button>
+    </div>
+    
+    <div class="movies">
+        <div class="movie" ng-repeat="movie in movies" id="{{ movie.id }}">
+            <h2 class="movie-title">{{ movie.title }}</h2>
+            <p><strong>Starring:</strong> {{ movie.actors }}</p>
+            <p><strong>Year:</strong> {{ movie.year }}</p>
+            <p><strong>Description:</strong> {{ movie.description }}</p>
+            <img ng-src="{{ movie.image }}" alt="{{ movie.title }}">
+        </div>
+    </div>
+    
+    <script>
+        var app = angular.module("MovieReviewApp", []);
+        
+        app.controller("MovieController", function ($scope, $location, $anchorScroll) {
+            $scope.movies = [
+                { id: "hotel-transylvania", title: "Hotel Transylvania", actors: "Adam Sandler, Andy Samberg, Selena Gomez", year: 2012, description: "Dracula manages a hotel for monsters.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8pGH_u_PnI5Cy0EYxwNRuFN_DXEycQ-MmQw&s" },
+                { id: "barbie-touch-of-magic", title: "Barbie: A Touch of Magic", actors: "America Young, Tatiana Varria, Ritesh Rajan", year: 2022, description: "Magical adventures with Barbie.", image: "https://occ-0-4821-2186.1.nflxso.net/dnm/api/v6/Qs00mKCpRvrkl3HZAN5KwEL1kpE/AAAABaY0hc2KhVcUDGWnLqVmIeAp5YZcyQA9SZBwDFBpuBtp7Fj00Kw0PDh3jSYJ7bWIRZDbHyvdZfP1a_HcOCpuWR1NuuYdsrYm60Q.jpg?r=b06" },
+                { id: "secret-life-of-pets", title: "The Secret Life of Pets", actors: "Louis C.K., Eric Stonestreet, Kevin Hart", year: 2016, description: "Pets' adventures in New York.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz-lw4xf7JPfVlX0t1sdfsdKT4tBLu1U8eoA&s" },
+                { id: "boss-baby-2", title: "The Boss Baby: Family Business", actors: "Alec Baldwin, James Marsden, Amy Sedaris", year: 2021, description: "The Boss Baby returns.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv7I8umiIfHdUEHHRpGHc5MI2w2pjD5MwGNQ&s" },
+                { id: "angry-birds-2", title: "The Angry Birds Movie 2", actors: "Jason Sudeikis, Rachel Bloom, Leslie Jones", year: 2019, description: "Birds and pigs team up.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2XqQMRgKJ_SSH24LbmjRR62mc9o4JQJa8Ig&s" },
+                { id: "stuart-little-2", title: "Stuart Little 2", actors: "Michael J. Fox, Geena Davis, Hugh Laurie", year: 2002, description: "Stuart's new adventure.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIY9cogxh9rYUNNjT87oapZI954XhEpimP5Q&s" },
+                { id: "minions-more-2", title: "Minions & More Volume 2", actors: "Pierre Coffin, Reese Witherspoon, Jenny Slate", year: 2022, description: "More Minion adventures.", image: "data:image/jpeg;base64,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" },
+                { id: "hotel-transylvania-3", title: "Hotel Transylvania 3: Summer Vacation", actors: "Adam Sandler, Selena Gomez, Kevin James", year: 2018, description: "A monster cruise vacation.", image: "data:image/jpeg;base64,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" }
+            ];
+
+            $scope.searchMovie = function () {
+                var searchText = $scope.searchText.toLowerCase();
+                var found = false;
+
+                for (var i = 0; i < $scope.movies.length; i++) {
+                    if ($scope.movies[i].title.toLowerCase().includes(searchText)) {
+                        var movieId = $scope.movies[i].id;
+                        $location.hash(movieId);
+                        $anchorScroll();
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    alert("Movie not found!");
+                }
+            };
+        });
+    </script>
+</body>
+</html>
